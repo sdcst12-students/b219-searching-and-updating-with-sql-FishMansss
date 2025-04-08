@@ -37,35 +37,44 @@ while loop==True:
     print("")
     print("     >>5. Reset")
     c=int(input())
-    
+    os.system('cls')
     if c==1:
         os.system('cls')
         print("First Name:")
-        fn = input()
+        fn = str(input())
         print("Last Name:")
-        ln = input()    
+        ln = str(input())    
         print("Email:")
-        em = input()
+        em = str(input())
         print("Address:")
-        ad = input()
+        ad = str(input())
         print("City:")
-        ci = input()
+        ci = str(input())
         print("Postal Code:")
-        pc = input()    
+        pc = str(input())    
 
         cursor.execute(f"INSERT INTO record(fname, lname, email, address, city, pcode) values('{fn}','{ln}','{em}','{ad}','{ci}','{pc}');")
     if c==2:
-        sel = input("Select a record by id:")
-        cha = input("Select element")
-        new = input("New value")
-        cursor.execute(f'UPDATE record where id is "{sel}"("{cha}") values("{new}");')
-        
+        sel = input("Select a record by id: ")
+        cha = input("Select element (fname = firstname, lname = lastname, email = email, ad = address, ci = city, pcode = postalcode ): ")
+        new = input("New value: ")
+        cursor.execute(f"UPDATE record SET '{cha}'= '{new}' WHERE id='{sel}';")
     if c==3:
-        cursor.execute(f'SELECT * in record;')
+        cursor.execute(f'SELECT * from record;')
         result = cursor.fetchall()
-        print(result)
+        for i in result:
+            print(f"ID: {i[0]}")
+            print(f"First Name: {i[1]}")
+            print(f"Last Name: {i[2]}")
+            print(f"Email: {i[3]}")
+            print(f"Address: {i[4]}")
+            print(f"City: {i[5]}")
+            print(f"Postal Code: {i[6]}")
+            print("")
+        input()
 
     if c==4:
+        connection.commit()
         exit()
     if c==5:
         cursor.execute("DROP TABLE record")
