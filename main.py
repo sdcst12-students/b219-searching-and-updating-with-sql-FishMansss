@@ -23,6 +23,7 @@ cursor.execute("create table if not exists record(id integer primary key autoinc
 
 loop = True
 while loop==True:
+    os.system('cls')
     print("             ||||||||||   record FILER   ||||||||||")
     print("\n\n")
     time.sleep(2)
@@ -56,22 +57,52 @@ while loop==True:
         cursor.execute(f"INSERT INTO record(fname, lname, email, address, city, pcode) values('{fn}','{ln}','{em}','{ad}','{ci}','{pc}');")
     if c==2:
         sel = input("Select a record by id: ")
-        cha = input("Select element (fname = firstname, lname = lastname, email = email, ad = address, ci = city, pcode = postalcode ): ")
+        cha = input("Select element (fname = firstname, lname = lastname, email = email, ad = address, city = city, pcode = postalcode ): ")
         new = input("New value: ")
         cursor.execute(f"UPDATE record SET '{cha}'= '{new}' WHERE id='{sel}';")
     if c==3:
-        cursor.execute(f'SELECT * from record;')
-        result = cursor.fetchall()
-        for i in result:
-            print(f"ID: {i[0]}")
-            print(f"First Name: {i[1]}")
-            print(f"Last Name: {i[2]}")
-            print(f"Email: {i[3]}")
-            print(f"Address: {i[4]}")
-            print(f"City: {i[5]}")
-            print(f"Postal Code: {i[6]}")
-            print("")
-        input()
+        
+        print("     >>1. Search")
+        print("     >>2. View all")
+        choi = int(input())
+        if choi==1:
+            sel = str(input("Select Quality to Search by: "))
+            val = str(input("Select Value of Quality: "))
+            try:
+                if sel=='id':
+                    cursor.execute(f"SELECT * from record WHERE {sel} = {val};")
+                if sel!='id':
+                    cursor.execute(f"SELECT * from record WHERE '{sel}'='{val}';")
+                result = cursor.fetchall()
+                for i in result:
+                    print(f"ID: {i[0]}")
+                    print(f"First Name: {i[1]}")
+                    print(f"Last Name: {i[2]}")
+                    print(f"Email: {i[3]}")
+                    print(f"Address: {i[4]}")
+                    print(f"City: {i[5]}")
+                    print(f"Postal Code: {i[6]}")
+                    print("")
+                print("PRESS ENTER TO CONTINUE")
+                input()
+            except:
+                pass   
+            
+        if choi==2:
+            
+            cursor.execute(f'SELECT * from record;')
+            result = cursor.fetchall()
+            for i in result:
+                print(f"ID: {i[0]}")
+                print(f"First Name: {i[1]}")
+                print(f"Last Name: {i[2]}")
+                print(f"Email: {i[3]}")
+                print(f"Address: {i[4]}")
+                print(f"City: {i[5]}")
+                print(f"Postal Code: {i[6]}")
+                print("")
+            print("PRESS ENTER TO CONTINUE")
+            input()
 
     if c==4:
         connection.commit()
@@ -79,4 +110,5 @@ while loop==True:
     if c==5:
         cursor.execute("DROP TABLE record")
         cursor.execute("create table if not exists record(id integer primary key autoincrement, fname tinytext, lname tinytext, email tinytext, address tinytext, city tinytext, pcode tinytext);")
-
+    
+ 
