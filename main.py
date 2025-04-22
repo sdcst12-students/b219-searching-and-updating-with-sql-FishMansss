@@ -63,24 +63,32 @@ while loop==True:
         sel = input("Select a record by id: ")
         cha = input("Select element (fname = firstname, lname = lastname, email = email, ad = address, city = city, pcode = postalcode ): ")
         new = input("New value: ")
-        cursor.execute(f"UPDATE record SET '{cha}'= '{new}' WHERE id='{sel}';")
-          
+        try:
+            cursor.execute(f"UPDATE record SET '{cha}'= '{new}' WHERE id='{sel}';")
+        except: 
+            pass 
     if c==3:
         
         print("     >>1. Search")
         print("     >>2. View all")
-        choi = int(input())
+        choi = input()
+        try:
+            choi = int(choi)
+        except:
+            choi = 2
         if choi==1:
+            print("Select element (fname = firstname, lname = lastname, email = email, ad = address, city = city, pcode = postalcode")
             sel = str(input("Select Quality to Search by: "))
             val = str(input("Select Value of Quality: "))
             try:
+                
                 if sel=='id' or sel=='ID' or sel=='Id':
                     cursor.execute(f"SELECT * from record WHERE {sel} = {val};")
                 #if sel!='id' or sel!= 'ID' or sel!='Id':
                 if sel not in ["'id","ID","Id"]:    
                     tempVar = f"SELECT * from record WHERE {sel}='{val}';"
                     #tempVar = "select * from record;"
-                    print(tempVar)
+                    #print(tempVar)
                     cursor.execute(tempVar)
                 result = cursor.fetchall()
                 for i in result:
@@ -110,7 +118,8 @@ while loop==True:
                 print("")
             print("PRESS ENTER TO CONTINUE")
             input()
-
+        else:
+            pass
     if c==4:
         connection.commit()
         exit()
